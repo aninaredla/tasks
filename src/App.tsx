@@ -17,6 +17,7 @@ function App(): JSX.Element {
                 src="https://static01.nyt.com/images/2022/06/28/science/14tb-giantrodents/14tb-giantrodents-superJumbo.jpg"
                 alt="A Capybara Vibing"
             />
+            A list of random foods:
             <ul>
                 <li> coffee creamer </li>
                 <li> blueberry oatmeal </li>
@@ -30,7 +31,8 @@ function App(): JSX.Element {
             <Container>
                 <Row>
                     <Col>
-                        This is text in the left column of the page.
+                        This is text in the left column of the page. There is a
+                        red-filled rectangle left-aligned to the page below.
                         <div
                             style={{
                                 backgroundColor: "red",
@@ -40,7 +42,9 @@ function App(): JSX.Element {
                         ></div>
                     </Col>
                     <Col>
-                        This is text in the right column of the page.
+                        This is text in the right column of the page. There is a
+                        red-filled rectangle left-aligned to the page below. My
+                        OCD is slightly triggered by the lack of symmetry.
                         <div
                             style={{
                                 backgroundColor: "red",
