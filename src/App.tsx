@@ -22,6 +22,7 @@ function App(): JSX.Element {
                 <li> blueberry oatmeal </li>
                 <li> chicken kabob </li>
                 <li> pasta shells </li>
+                <li> tea biscuits</li>
             </ul>
             <Button onClick={() => console.log("Hello World!")}>
                 Log Hello World
@@ -30,15 +31,23 @@ function App(): JSX.Element {
                 <Row>
                     <Col>
                         This is text in the left column of the page.
-                        <div>
-                            width: 200px; height: 100px; backgroundColor: red;
-                        </div>
+                        <div
+                            style={{
+                                backgroundColor: "red",
+                                height: "100px",
+                                width: "300px"
+                            }}
+                        ></div>
                     </Col>
                     <Col>
                         This is text in the right column of the page.
-                        <div>
-                            width: 200px; height: 100px; backgroundColor: red;
-                        </div>
+                        <div
+                            style={{
+                                backgroundColor: "red",
+                                height: "100px",
+                                width: "300px"
+                            }}
+                        ></div>
                     </Col>
                 </Row>
             </Container>
