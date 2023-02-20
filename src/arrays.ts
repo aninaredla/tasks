@@ -1,3 +1,5 @@
+//Ani Naredla, Task 5
+
 /**
  * Consume an array of numbers, and return a new array containing
  * JUST the first and last number. If there are no elements, return
@@ -5,7 +7,15 @@
  * the number twice.
  */
 export function bookEndList(numbers: number[]): number[] {
-    return numbers;
+    const arr = [];
+    if (numbers.length <= 1) {
+        arr[0] = numbers[0];
+        arr[1] - numbers[0];
+    } else if (numbers.length > 1) {
+        arr[0] = numbers[0];
+        arr[1] = numbers[numbers.length - 1];
+    }
+    return arr;
 }
 
 /**
@@ -13,7 +23,8 @@ export function bookEndList(numbers: number[]): number[] {
  * number has been tripled (multiplied by 3).
  */
 export function tripleNumbers(numbers: number[]): number[] {
-    return numbers;
+    const tripled = numbers.map((num: number): number => num * 3);
+    return tripled;
 }
 
 /**
