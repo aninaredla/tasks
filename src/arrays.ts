@@ -8,9 +8,9 @@
  */
 export function bookEndList(numbers: number[]): number[] {
     const arr = [];
-    if (numbers.length <= 1) {
+    if (numbers.length === 1) {
         arr[0] = numbers[0];
-        arr[1] - numbers[0];
+        arr[1] = numbers[0];
     } else if (numbers.length > 1) {
         arr[0] = numbers[0];
         arr[1] = numbers[numbers.length - 1];
@@ -32,8 +32,11 @@ export function tripleNumbers(numbers: number[]): number[] {
  * the number cannot be parsed as an integer, convert it to 0 instead.
  */
 export function stringsToIntegers(numbers: string[]): number[] {
-    const strnum = numbers.map((num: string): number => Number(num));
+    const strnum = numbers.map((num: string): number =>
+        !Number.isNaN(parseInt(num, 10)) ? Number(num) : 0
+    );
     return strnum;
+    //how to deal with NaN
 }
 
 /**
@@ -47,7 +50,9 @@ export const removeDollars = (amounts: string[]): number[] => {
     const arr = amounts.map((amount) =>
         amount[0] === "$" ? amount.replace("$", "") : amount
     );
-    return arr.map((elem: string): number => Number(elem));
+    return arr.map((elem: string): number =>
+        !Number.isNaN(parseInt(elem, 10)) ? Number(elem) : 0
+    );
 };
 
 /**
@@ -60,7 +65,7 @@ export const shoutIfExclaiming = (messages: string[]): string[] => {
         msg[msg.length - 1] === "!" ? msg.toUpperCase() : msg
     );
 
-    arr = arr.filter((msg: string): boolean => msg[msg.length] !== "?");
+    arr = arr.filter((msg: string): boolean => msg[msg.length - 1] !== "?");
     return arr;
 };
 
@@ -99,16 +104,21 @@ export function allRGB(colors: string[]): boolean {
  */
 export function makeMath(addends: number[]): string {
     // find sum
-    const sum = addends.reduce(
-        (currentTotal: number, num: number) => currentTotal + num,
-        0
-    );
-    // convert sum and num array to str
-    let addstr = sum.toString() + "=";
-    // make "sum=" as str start AND then append "num+"
-    addends.map((num: number) => (addstr += num.toString() + "+"));
-    // remove last "+" and return str
-    addstr = addstr.slice(0, -1);
+    let addstr = "";
+    if (addends.length === 0) {
+        addstr = "0=0";
+    } else {
+        const sum = addends.reduce(
+            (currentTotal: number, num: number) => currentTotal + num,
+            0
+        );
+        // convert sum and num array to str
+        addstr = sum.toString() + "=";
+        // make "sum=" as str start AND then append "num+"
+        addends.map((num: number) => (addstr += num.toString() + "+"));
+        // remove last "+" and return str
+        addstr = addstr.slice(0, -1);
+    }
     return addstr;
 }
 
@@ -135,6 +145,13 @@ export function injectPositive(values: number[]): number[] {
             0
         );
         newvals.splice(firstnegativeidx + 1, 0, sum);
+    } else {
+        newvals.push(
+            newvals.reduce(
+                (currTotal: number, val: number) => currTotal + val,
+                0
+            )
+        );
     }
     return newvals;
 }
