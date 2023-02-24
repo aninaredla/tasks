@@ -24,6 +24,7 @@ function App(): JSX.Element {
                 <li> chicken kabob </li>
                 <li> pasta shells </li>
                 <li> tea biscuits</li>
+                <li> mild cheddar</li>
             </ul>
             <Button onClick={() => console.log("Hello World!")}>
                 Log Hello World
