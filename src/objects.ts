@@ -10,7 +10,22 @@ export function makeBlankQuestion(
     name: string,
     type: QuestionType
 ): Question {
-    return {};
+    const body = "";
+    const expected = "";
+    const options: string[] = [];
+    const points = 1;
+    const published = false;
+    const blankQuestion = {
+        id,
+        name,
+        type,
+        body,
+        expected,
+        options,
+        points,
+        published
+    };
+    return blankQuestion;
 }
 
 /**
@@ -21,7 +36,15 @@ export function makeBlankQuestion(
  * HINT: Look up the `trim` and `toLowerCase` functions.
  */
 export function isCorrect(question: Question, answer: string): boolean {
-    return false;
+    let isRight = false;
+    let expectedAns = question.expected.trim();
+    expectedAns = expectedAns.toLowerCase();
+    let realAns = answer.trim();
+    realAns = realAns.toLowerCase();
+    if (expectedAns === realAns) {
+        isRight = true;
+    }
+    return isRight;
 }
 
 /**
@@ -31,7 +54,19 @@ export function isCorrect(question: Question, answer: string): boolean {
  * be exactly one of the options.
  */
 export function isValid(question: Question, answer: string): boolean {
-    return false;
+    let validAns = true;
+    if (question.type === "multiple_choice_question") {
+        // do i need to trim and lower case each of the options and the answer?
+        let num = 0;
+        // is the options array of type string?
+        question.options.map((option: string) =>
+            answer === option ? (num = num + 1) : (num = num + 0)
+        );
+        if (num === 0) {
+            validAns = false;
+        }
+    }
+    return validAns;
 }
 
 /**
@@ -41,7 +76,10 @@ export function isValid(question: Question, answer: string): boolean {
  * name "My First Question" would become "9: My First Q".
  */
 export function toShortForm(question: Question): string {
-    return "";
+    let shortForm = question.id.toString() + ": ";
+    const shortName = question.name.slice(0, 10);
+    shortForm += shortName;
+    return shortForm;
 }
 
 /**
@@ -62,7 +100,10 @@ export function toShortForm(question: Question): string {
  * Check the unit tests for more examples of what this looks like!
  */
 export function toMarkdown(question: Question): string {
-    return "";
+    let display = "# " + question.name + "\n";
+    display += question.body + "\n";
+    question.options.map((option: string) => (display += "- " + option + "\n"));
+    return display;
 }
 
 /**
@@ -70,7 +111,8 @@ export function toMarkdown(question: Question): string {
  * `newName`.
  */
 export function renameQuestion(question: Question, newName: string): Question {
-    return question;
+    const renamedQ = { ...question, name: newName };
+    return renamedQ;
 }
 
 /**
@@ -79,7 +121,8 @@ export function renameQuestion(question: Question, newName: string): Question {
  * published; if it was published, now it should be not published.
  */
 export function publishQuestion(question: Question): Question {
-    return question;
+    const publishedQ = { ...question, published: !question.published };
+    return publishedQ;
 }
 
 /**
@@ -89,7 +132,8 @@ export function publishQuestion(question: Question): Question {
  * The `published` field should be reset to false.
  */
 export function duplicateQuestion(id: number, oldQuestion: Question): Question {
-    return oldQuestion;
+    const newQ = { ...oldQuestion, name: "Copy of " + oldQuestion.name };
+    return newQ;
 }
 
 /**
@@ -100,7 +144,9 @@ export function duplicateQuestion(id: number, oldQuestion: Question): Question {
  * Check out the subsection about "Nested Fields" for more information.
  */
 export function addOption(question: Question, newOption: string): Question {
-    return question;
+    //shouldn't using the spread operator void the need for the reference issue?
+    const changedQ = { ...question, options: [...question.options, newOption] };
+    return changedQ;
 }
 
 /**
@@ -115,7 +161,9 @@ export function mergeQuestion(
     id: number,
     name: string,
     contentQuestion: Question,
+    //what is this parameter?
     { points }: { points: number }
 ): Question {
-    return contentQuestion;
+    const mergedQ = { ...contentQuestion, points: points, published: false };
+    return mergedQ;
 }
