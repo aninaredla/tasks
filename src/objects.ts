@@ -101,8 +101,17 @@ export function toShortForm(question: Question): string {
  */
 export function toMarkdown(question: Question): string {
     let display = "# " + question.name + "\n";
-    display += question.body + "\n";
-    question.options.map((option: string) => (display += "- " + option + "\n"));
+    display += question.body;
+    if (question.options.length > 0) {
+        display += "\n";
+    }
+    if (question.type === "multiple_choice_question") {
+        question.options.map(
+            (option: string) => (display += "- " + option + "\n")
+        );
+        display = display.slice(0, -1);
+    }
+    //console.log(display);
     return display;
 }
 
@@ -132,7 +141,12 @@ export function publishQuestion(question: Question): Question {
  * The `published` field should be reset to false.
  */
 export function duplicateQuestion(id: number, oldQuestion: Question): Question {
-    const newQ = { ...oldQuestion, name: "Copy of " + oldQuestion.name };
+    const newQ = {
+        ...oldQuestion,
+        id: id,
+        name: "Copy of " + oldQuestion.name,
+        published: false
+    };
     return newQ;
 }
 
@@ -164,6 +178,12 @@ export function mergeQuestion(
     //what is this parameter?
     { points }: { points: number }
 ): Question {
-    const mergedQ = { ...contentQuestion, points: points, published: false };
+    const mergedQ = {
+        ...contentQuestion,
+        id: id,
+        name: name,
+        points: points,
+        published: false
+    };
     return mergedQ;
 }
