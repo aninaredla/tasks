@@ -21,10 +21,13 @@ export function getPublishedQuestions(questions: Question[]): Question[] {
 export function getNonEmptyQuestions(questions: Question[]): Question[] {
     const nonEmptyQ = questions.filter(
         (question: Question): boolean =>
-            question.body !== "" &&
-            question.expected !== "" &&
-            question.options.length > 0
+            !(
+                question.body === "" &&
+                question.expected === "" &&
+                question.options.length === 0
+            )
     );
+    //console.log(nonEmptyQ);
     return nonEmptyQ;
 }
 
@@ -112,29 +115,19 @@ id,name,options,points,published
  * Check the unit tests for more examples!
  */
 export function toCSV(questions: Question[]): string {
-    //let questionCSV = "";
-    // questions.map(
-    //     (question: Question) =>
-    //         (questionCSV +=
-    //             question.id.toString() +
-    //             "," +
-    //             question.name +
-    //             "," +
-    //             question.options.length.toString() +
-    //             "," +
-    //             question.points.toString() +
-    //             "," +
-    //             question.published +
-    //             "\n")
-    // );
-    const questionCSV = questions
-        .map(
-            (question: Question): string =>
-                `${question.id},${question.name},${question.options.length},${question.points},${question.published}`
-        )
-        .join("\n");
+    let questionCSV = "id,name,options,points,published\n";
+    questionCSV =
+        questionCSV +
+        questions
+            .map(
+                (question: Question): string =>
+                    `${question.id},${question.name},${question.options.length},${question.points},${question.published}`
+            )
+            .join("\n");
+    if (questionCSV[questionCSV.length - 1] === "\n") {
+        questionCSV = questionCSV.slice(0, -1);
+    }
     return questionCSV;
-    //WHAT IS CAUSING ERROR??
 }
 
 /**
@@ -286,7 +279,10 @@ export function editOption(
         })
     );
     //case if the target option index is NOT -1
-    const newOptions = [...questions[targetId].options];
+    const targetIdx = questions.findIndex(
+        (question: Question): boolean => targetId === question.id
+    );
+    const newOptions = [...questions[targetIdx].options];
     if (targetOptionIndex !== -1) {
         newOptions[targetOptionIndex] = newOption; //change the option list
     }
@@ -314,21 +310,27 @@ export function duplicateQuestionInArray(
     targetId: number,
     newId: number
 ): Question[] {
-    const targetQArr = questions.filter(
-        (question: Question): boolean => question.id === targetId
-    ); // making array with the target question
-    const targetQ = targetQArr[0];
-    const duplicateQ = duplicateQuestion(newId, targetQ); //making the duplicate question with newID
-    let newQuestionDuplicate = questions.map(
-        (question: Question): Question => ({ ...question })
-    ); //deep copy of questions array
-    const targetidx = questions.findIndex(
-        (question: Question): boolean => question.id === targetId
+    // const targetQ = questions.find(
+    //     (question: Question): boolean => question.id === targetId //find question to duplicate
+    // );
+    // let newQuestionWDup: Question[] = questions.map(
+    //     (question: Question): Question => ({ ...question }) // create deep copy of the questions array
+    // );
+    // if (targetQ !== undefined) {
+    //     const duplicateQ: Question = duplicateQuestion(newId, targetQ);
+    //     const targetIdx = questions.findIndex(
+    //         (question: Question): boolean => targetId === question.id //find index of question with targetId
+    //     );
+    //     newQuestionWDup = newQuestionWDup.splice(targetIdx + 1, 0, duplicateQ); //place question duplicate right after the question with targetId
+    // }
+    // return newQuestionWDup;
+    let newQuestionArr: Question[] = [];
+    newQuestionArr = questions.reduce(
+        (arr, curr) =>
+            curr.id === targetId
+                ? [...arr, curr, duplicateQuestion(newId, curr)] // if curr.id equals targetId, add curr and it's duplicate
+                : [...arr, curr],
+        newQuestionArr // else just add curr
     );
-    newQuestionDuplicate = newQuestionDuplicate.splice(
-        targetidx,
-        0,
-        duplicateQ
-    );
-    return newQuestionDuplicate;
+    return newQuestionArr;
 }
