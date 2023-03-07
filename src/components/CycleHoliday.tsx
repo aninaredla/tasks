@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 
-type Holiday = "🪁" | "🎆" | "🪔" | "🦃" | "🎁"; //Sankranti, Fourth of July, Diwali, Thankgiving, Christmas
-
 const alphabeticalTransition: Record<string, string> = {
     "🎁": "🪔",
     "🪔": "🎆",
