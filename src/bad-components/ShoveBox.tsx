@@ -6,18 +6,6 @@ interface currPosition {
     setPosition: (pos: number) => void;
 }
 
-// function ShoveBoxButton({
-//     position,
-//     setPosition
-// }: {
-//     position: number;
-//     setPosition: (newPosition: number) => void;
-// }) {
-//     return (
-//         <Button onClick={() => setPosition(4 + position)}>Shove the Box</Button>
-//     );
-// }
-
 function ShoveBoxButton({ currPos, setPosition }: currPosition): JSX.Element {
     return (
         <Button onClick={() => setPosition(4 + currPos)}>Shove the Box</Button>
@@ -43,7 +31,6 @@ function MoveableBox({ currPos }: currPosition): JSX.Element {
 
 export function ShoveBox(): JSX.Element {
     const [position, setPosition] = useState<number>(10);
-    //const box = MoveableBox(position);
 
     return (
         <div>
@@ -54,7 +41,6 @@ export function ShoveBox(): JSX.Element {
                     currPos={position}
                     setPosition={setPosition}
                 ></ShoveBoxButton>
-                {/* {box} */}
                 <MoveableBox
                     currPos={position}
                     setPosition={setPosition}
