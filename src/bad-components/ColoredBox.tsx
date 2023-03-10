@@ -1,44 +1,31 @@
 import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 
-// export const COLORS = ["red", "blue", "green"];
-// const DEFAULT_COLOR_INDEX = 0;
+export const COLORS = ["red", "blue", "green"];
+const DEFAULT_COLOR_INDEX = 0;
 
-// function ChangeColor(): JSX.Element {
-//     const [colorIndex, setColorIndex] = useState<number>(DEFAULT_COLOR_INDEX);
-//     return (
-//         <Button onClick={() => setColorIndex((1 + colorIndex) % COLORS.length)}>
-//             Next Color
-//         </Button>
-//     );
-// }
+interface colorIdx {
+    coloridx: number;
+    setColorIndex: (newIndex: number) => void;
+}
 
-const colorTransition: Record<string, string> = {
-    red: "blue",
-    blue: "green",
-    green: "red"
-};
+function ChangeColor({ setColorIndex, coloridx }: colorIdx): JSX.Element {
+    return (
+        <Button onClick={() => setColorIndex((coloridx + 1) % COLORS.length)}>
+            Next Color
+        </Button>
+    );
+}
 
-function ColorPreview(): JSX.Element {
-    const [color, setColor] = useState<string>("red");
-    function changeColor(): void {
-        const newColor = colorTransition[color];
-        setColor(newColor);
-    }
+function ColorPreview(props: colorIdx): JSX.Element {
     return (
         <>
-            <div>
-                <span>The current color is: {color}</span>
-            </div>
-            <div>
-                <Button onClick={changeColor}>Next Color</Button>
-            </div>
             <div
                 data-testid="colored-box"
                 style={{
                     width: "50px",
                     height: "50px",
-                    backgroundColor: color,
+                    backgroundColor: COLORS[props.coloridx],
                     display: "inline-block",
                     verticalAlign: "bottom",
                     marginLeft: "5px"
@@ -49,13 +36,20 @@ function ColorPreview(): JSX.Element {
 }
 
 export function ColoredBox(): JSX.Element {
+    const [colorIndex, setColorIndex] = useState<number>(DEFAULT_COLOR_INDEX);
     return (
         <div>
             <h3>Colored Box</h3>
-            {/* <span>The current color is: {color}</span> */}
+            <span>The current color is: {COLORS[colorIndex]}</span>
             <div>
-                {/* <ChangeColor></ChangeColor> */}
-                <ColorPreview></ColorPreview>
+                <ChangeColor
+                    setColorIndex={setColorIndex}
+                    coloridx={colorIndex}
+                ></ChangeColor>
+                <ColorPreview
+                    coloridx={colorIndex}
+                    setColorIndex={setColorIndex}
+                ></ColorPreview>
             </div>
         </div>
     );
