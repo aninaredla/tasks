@@ -16,10 +16,6 @@ const colors = [
 export function ChangeColor(): JSX.Element {
     const [color, changeColor] = useState<string>("blue");
 
-    // function updateColor(event: React.ChangeEvent<HTMLSelectElement>) {
-    //     changeColor(event.target.value);
-    // }
-
     return (
         <div>
             <h3>Change Color</h3>

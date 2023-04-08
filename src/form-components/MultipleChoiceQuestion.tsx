@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Form } from "react-bootstrap";
+import { Container, Form } from "react-bootstrap";
+import "../App.css";
 
 export function MultipleChoiceQuestion({
     options,
@@ -15,9 +16,10 @@ export function MultipleChoiceQuestion({
     }
 
     return (
-        <div>
+        <div className="myStyle">
             <h3>Multiple Choice Question</h3>
             <Form.Group controlId="options">
+                <Form.Label>Choose the correct answer</Form.Label>
                 <Form.Select value={choice} onChange={updateChoice}>
                     {options.map((option: string) => (
                         <option key={option} value={option}>

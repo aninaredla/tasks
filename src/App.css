@@ -1,5 +1,9 @@
 .App {
     text-align: center;
+    width: 75%;
+    align-items: center;
+    justify-content: center;
+    /* display: flex; */
 }
 
 .App-logo {
@@ -13,9 +17,17 @@
     }
 }
 
+.myStyle {
+    text-align: center;
+    width: 75%;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
 .App-header {
     width: 100%;
-    background-color: #630EEE;
+    background-color: #630eee;
     min-height: 40vh;
     display: flex;
     flex-direction: column;
